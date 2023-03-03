@@ -1,26 +1,8 @@
-# Hello, tokens!
+# Tokenized Ballot
 
-Learning ERC20 and ERC721 EIP standards through a token sale.
+Learning to use ERC20 EIP standard and Open Zeppelin contracts implementing a tokenized ballot.
 
-Working with:
-
-- OpenZeppelin contracts
-
-## Dependencies
-
-Install open zeppelin contracts
-
-```
-yarn add @openzeppelin/contracts --dev
-```
-
-## Test
-
-```
-yarn hardhat test
-```
-
-## Setup
+# Setup
 
 Put your .env file at root. It should contain:
 
@@ -30,4 +12,22 @@ INFURA_API_KEY=
 INFURA_API_SECRET=
 ALCHEMY_API_KEY=
 ETHERSCAN_API_KEY=
+```
+
+Install dependencies
+
+```
+yarn install
+```
+
+Compile contracts
+
+```
+yarn hardhat compile
+```
+
+# Test
+
+```
+yarn hardhat test
 ```
