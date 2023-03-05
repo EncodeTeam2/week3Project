@@ -38,7 +38,7 @@ export function configureGoerliWallet(privateKey: string | undefined): ethers.Wa
     return wallet.connect(provider)
 }
 
-export async function attachToVotingERC20Token(contractAddress: string, signerWallet: SignerWithAddress): Promise<VotingERC20Token> {
+export async function attachToVotingERC20Token(contractAddress: string, signerWallet: SignerWithAddress | ethers.Wallet): Promise<VotingERC20Token> {
     // Loads the bytecode from contract.
     // Picks contract factory from typechain.
     // Need to pass signer.
@@ -50,7 +50,7 @@ export async function attachToVotingERC20Token(contractAddress: string, signerWa
     return votingERC20TokenContractInstance
 }
 
-export async function attachToTokenizedBallot(contractAddress: string, signerWallet: SignerWithAddress): Promise<TokenizedBallot> {
+export async function attachToTokenizedBallot(contractAddress: string, signerWallet: SignerWithAddress | ethers.Wallet): Promise<TokenizedBallot> {
     // Loads the bytecode from contract.
     // Picks contract factory from typechain.
     // Need to pass signer.

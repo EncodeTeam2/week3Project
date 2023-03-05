@@ -1,7 +1,8 @@
-import {  configureGoerliWallet } from '../Utils'
+import { configureGoerliWallet } from '../Utils'
 import { ethers } from 'ethers';
 import * as dotenv from 'dotenv';
 import { VotingERC20Token, VotingERC20Token__factory } from '../../typechain-types';
+import { TransactionReceipt } from '@ethersproject/providers';
 dotenv.config();
 
 // ERC20 Voting Token does have arguments for constructor.
