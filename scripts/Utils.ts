@@ -27,8 +27,6 @@ export function configureGoerliWallet(privateKey: string | undefined): ethers.Wa
         }
     })
 
-    //const provider = new ethers.providers.AlchemyProvider("goerli", process.env.ALCHEMY_API_KEY)
-
     if (!privateKey || privateKey.length <= 0) {
         throw new Error("Missing private key")
     }
