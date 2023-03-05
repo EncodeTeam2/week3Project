@@ -1,4 +1,7 @@
+import { TokenizedBallot } from './../typechain-types/contracts/TokenizedBallot.sol/TokenizedBallot';
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { ethers } from "ethers";
+import { TokenizedBallot__factory, VotingERC20Token, VotingERC20Token__factory } from "../typechain-types";
 
 export function getArguments(args: Array<string>): Array<string> {
 
@@ -37,19 +40,26 @@ export function configureGoerliWallet(privateKey: string | undefined): ethers.Wa
     return wallet.connect(provider)
 }
 
-export async function attachToBallot(signerWallet: ethers.Wallet): Promise<Ballot> {
+export async function attachToVotingERC20Token(contractAddress: string, signerWallet: SignerWithAddress): Promise<VotingERC20Token> {
     // Loads the bytecode from contract.
     // Picks contract factory from typechain.
     // Need to pass signer.
-    const ballotContractFactory = new Ballot__factory(signerWallet);
-    let ballotContractInstance: Ballot;
+    const votingERC20TokenContractFactory = new VotingERC20Token__factory(signerWallet);
+    let votingERC20TokenContractInstance: VotingERC20Token;
 
-    // Get deployed contract address from env and attach it to a new contract instance.
-    if (process.env.CONTRACT_ADDRESS !== undefined) {
-        ballotContractInstance = ballotContractFactory.attach(process.env.CONTRACT_ADDRESS)
-    } else {
-        throw new Error("Missing contract address.")
-    }
+    votingERC20TokenContractInstance = votingERC20TokenContractFactory.attach(contractAddress)
 
-    return ballotContractInstance
-} 
+    return votingERC20TokenContractInstance
+}
+
+export async function attachToTokenizedBallot(contractAddress: string, signerWallet: SignerWithAddress): Promise<TokenizedBallot> {
+    // Loads the bytecode from contract.
+    // Picks contract factory from typechain.
+    // Need to pass signer.
+    const tokenizedBallotContractFactory = new TokenizedBallot__factory(signerWallet);
+    let tokenizedBallotContractInstance: TokenizedBallot;
+
+    tokenizedBallotContractInstance = tokenizedBallotContractFactory.attach(contractAddress)
+
+    return tokenizedBallotContractInstance
+}
