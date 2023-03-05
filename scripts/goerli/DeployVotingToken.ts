@@ -20,7 +20,16 @@ async function deployERC20VotingToken(): Promise<void> {
     const VotingERC20TokenContract: VotingERC20Token = await VotingERC20TokenFactory.deploy();
     const VotingERC20TokenReceipt: TransactionReceipt = await VotingERC20TokenContract.deployTransaction.wait();
 
-    console.log("ERC20 Voting Token deployed at: ", VotingERC20TokenReceipt.contractAddress);
+    console.log(`
+        Contract Name: ERC20VotingTokeny
+        Action: Deploy
+        Deployer: ${VotingERC20TokenReceipt.from}
+        Tx hash: ${VotingERC20TokenReceipt.transactionHash}
+        Block: ${VotingERC20TokenReceipt.blockNumber}
+        Contract Address: ${VotingERC20TokenReceipt.contractAddress}
+        Cost in ETH: ${ethers.utils.formatEther(VotingERC20TokenReceipt.gasUsed.mul(VotingERC20TokenReceipt.effectiveGasPrice))}
+        Confirmations: ${VotingERC20TokenReceipt.confirmations}
+`)
 }
 
 deployERC20VotingToken().catch((error) => {

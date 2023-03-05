@@ -9,9 +9,8 @@ dotenv.config();
 async function mintVotingTokens(): Promise<void> {
 
   if (!process.env.ERC20_TOKEN_CONTRACT_ADDRESS) throw new Error("Missing token contract address environment variable.");
-  if (!process.env.VOTER1_PUBLIC_KEY) throw new Error("Missing token contract address environment variable.");
-  if (!process.env.VOTER2_PUBLIC_KEY) throw new Error("Missing token contract address environment variable.");
-  if (!process.env.VOTER3_PUBLIC_KEY) throw new Error("Missing token contract address environment variable.");
+  if (!process.env.VOTER1_PUBLIC_KEY) throw new Error("Missing voter1 public key address environment variable.");
+  if (!process.env.VOTER2_PUBLIC_KEY) throw new Error("Missing voter2 public key address environment variable.");
 
   // Grab the mint amount from the argument and check to make sure it is a number
   const MINT_AMOUNT = getArguments(process.argv);
@@ -27,27 +26,43 @@ async function mintVotingTokens(): Promise<void> {
   // Attach mintingWallet to existing Voting ERC20 Token contract
   const votingERC20TokenContract: VotingERC20Token = await attachToVotingERC20Token(process.env.ERC20_TOKEN_CONTRACT_ADDRESS, mintingWallet);
 
-  // Mint same amount of tokens for Voters from the env
+  console.log(`Minting ${MINT_AMOUNT} tokens for ${process.env.VOTER1_PUBLIC_KEY} address`);
+  console.log("Waiting for confirmations...");
 
+  // Mint same amount of tokens for Voters from the env
   const voter1Mint = await votingERC20TokenContract.mint(process.env.VOTER1_PUBLIC_KEY, BigNumber.from(parseInt(MINT_AMOUNT[0])));
   const voter1MintTxReceipt = await voter1Mint.wait();
 
   console.log(`
+    Contract Name: ERC20VotingToken
     Action: Mint
-    Minted From: ${voter1MintTxReceipt.from}
-    Minted Tokens To: ${voter1MintTxReceipt.to}
-    TX Hash: ${voter1MintTxReceipt.transactionHash}
-    `);
+    Minter: ${voter1MintTxReceipt.from}
+    To: ${process.env.VOTER1_PUBLIC_KEY}
+    Balance: ${await votingERC20TokenContract.balanceOf(process.env.VOTER1_PUBLIC_KEY)}
+    Tx hash: ${voter1MintTxReceipt.transactionHash}
+    Block: ${voter1MintTxReceipt.blockNumber}
+    Cost in ETH: ${ethers.utils.formatEther(voter1MintTxReceipt.gasUsed.mul(voter1MintTxReceipt.effectiveGasPrice))}
+    Confirmations: ${voter1MintTxReceipt.confirmations}
+`)
+
+
+  console.log(`Minting ${MINT_AMOUNT} tokens for ${process.env.VOTER2_PUBLIC_KEY} address`);
+  console.log("Waiting for confirmations...");
 
   const voter2Mint = await votingERC20TokenContract.mint(process.env.VOTER2_PUBLIC_KEY, BigNumber.from(parseInt(MINT_AMOUNT[0])));
-  const voter2MintTxReceipt = await voter1Mint.wait();
+  const voter2MintTxReceipt = await voter2Mint.wait();
 
   console.log(`
+    Contract Name: ERC20VotingToken
     Action: Mint
-    Minted From: ${voter1MintTxReceipt.from}
-    Minted Tokens To: ${voter1MintTxReceipt.to}
-    TX Hash: ${voter1MintTxReceipt.transactionHash}
-    `);
+    Minter: ${voter2MintTxReceipt.from}
+    To: ${process.env.VOTER2_PUBLIC_KEY}
+    Balance: ${await votingERC20TokenContract.balanceOf(process.env.VOTER2_PUBLIC_KEY)}
+    Tx hash: ${voter2MintTxReceipt.transactionHash}
+    Block: ${voter2MintTxReceipt.blockNumber}
+    Cost in ETH: ${ethers.utils.formatEther(voter2MintTxReceipt.gasUsed.mul(voter2MintTxReceipt.effectiveGasPrice))}
+    Confirmations: ${voter2MintTxReceipt.confirmations}
+`)
 }
 
 mintVotingTokens().catch((error) => {
