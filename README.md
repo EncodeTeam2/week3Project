@@ -9,15 +9,17 @@ Learning to use ERC20 EIP standard and Open Zeppelin contracts implementing a to
 Put your .env file at root. It should contain:
 
 ```env
-ERC20_TOKEN_DEPLOYER_PRIVATE_KEY="" # Deploys both contracts. also minter.
-VOTER1_PRIVATE_KEY="" # Delegates voting power to VOTER2
-VOTER2_PRIVATE_KEY="" # Receives delegation from VOTER1 and votes.
-VOTER3_PRIVATE_KEY="" # Just votes
-ERC20_TOKEN_CONTRACT_ADDRESS=""
-INFURA_API_KEY=""
-INFURA_API_SECRET=""
-ALCHEMY_API_KEY=""
-ETHERSCAN_API_KEY=""
+ERC20_TOKEN_DEPLOYER_PRIVATE_KEY=
+VOTER1_PRIVATE_KEY=
+VOTER2_PRIVATE_KEY=
+VOTER1_PUBLIC_KEY=
+VOTER2_PUBLIC_KEY=
+ERC20_TOKEN_CONTRACT_ADDRESS=
+TOKENIZED_BALLOT_CONTRACT_ADDRESS=
+INFURA_API_KEY=
+INFURA_API_SECRET=
+ALCHEMY_API_KEY=
+ETHERSCAN_API_KEY=
 ```
 
 Install dependencies
@@ -42,7 +44,7 @@ yarn hardhat test
 
 ## Run no-interaction mode inside hre
 
----
+Single execution of all the workflow inside hre with hardcoded values.
 
 ```shell
 yarn run ts-node --files ./scripts/hre/Main.ts
@@ -56,7 +58,7 @@ yarn run ts-node --files ./scripts/hre/Main.ts
 
 In order to properly deploy to Goerli, you need to have a funded account. You can get some Goerli ETH a Goerli Faucet. Once an account is funded with Goerli ETH, you can deploy the contracts to Goerli by running the following commands in this order:
 
-Deploy VotingERC20Token as deployer - needed for users to get voting tokens and getting voting power
+Deploy VotingERC20Token as deployer/minter - needed for users to get voting tokens and voting power
 
 ```shell
 yarn run ts-node --files ./scripts/goerli/DeployVotingToken.ts
@@ -74,7 +76,7 @@ Voter 1 delegates voting power to Voter 2. Also Voter 2 self-delegates to activa
 yarn run ts-node --files ./scripts/goerli/DelegateVotingToken.ts "Voter2 address"
 ```
 
-Deploy Tokenized Ballot as deployer. Will get last BlockId. Pass proposals as params.
+Deploy Tokenized Ballot as deployer. Will set BlockId as latest. Pass desired proposals as arguments.
 
 ```shell
 yarn run ts-node --files ./scripts/goerli/DeployTokenizedBallot.ts "Proposal 1" "Proposal 2" "Proposal 3"
@@ -86,7 +88,7 @@ Voter 2 votes certain amount to desired proposal number.
 yarn run ts-node --files ./scripts/goerli/Vote.ts "proposal" "amount"
 ```
 
-Voter 2 votes half+1 to proposal 2.
+Voter 2 certain amount to desired proposal number.
 
 ```shell
 yarn run ts-node --files ./scripts/goerli/Vote.ts "proposal" "amount"
