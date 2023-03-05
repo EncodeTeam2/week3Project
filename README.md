@@ -32,8 +32,8 @@ yarn hardhat compile
 yarn hardhat test
 ```
 
-# Deploy
+# Run no-interaction mode inside hre
 
 ```shell
-yarn run ts-node --files ./scripts/hre/Deployment.ts "Proposal 1" "Proposal 2" "Proposal 3"
+yarn run ts-node --files ./scripts/hre/Main.ts
 ```
