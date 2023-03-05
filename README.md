@@ -56,16 +56,44 @@ yarn run ts-node --files ./scripts/hre/Main.ts
 
 In order to properly deploy to Goerli, you need to have a funded account. You can get some Goerli ETH a Goerli Faucet. Once an account is funded with Goerli ETH, you can deploy the contracts to Goerli by running the following commands in this order:
 
-VotingERC20Token - needed for users to get voting tokens and getting voting power
+Deploy VotingERC20Token as deployer - needed for users to get voting tokens and getting voting power
 
 ```shell
-yarn run ts-node --files ./scripts/deploy/DeployVotingToken.ts
+yarn run ts-node --files ./scripts/goerli/DeployVotingToken.ts
 ```
 
-```shell
-yarn run ts-node --files ./scripts/deploy/DelegateVotingToken.ts "address that receives delegation"
-```
+Mint desired amount of tokens for Voter1 and Voter2.
 
 ```shell
-yarn run ts-node --files ./scripts/deploy/DeployTokenizedBallot.ts "Proposal 1" "Proposal 2" "Proposal 3"
+yarn run ts-node --files ./scripts/goerli/MintVotingToken.ts "amount"
+```
+
+Voter 1 delegates voting power to Voter 2. Also Voter 2 self-delegates to activate vote power.
+
+```shell
+yarn run ts-node --files ./scripts/goerli/DelegateVotingToken.ts "Voter2 address"
+```
+
+Deploy Tokenized Ballot as deployer. Will get last BlockId. Pass proposals as params.
+
+```shell
+yarn run ts-node --files ./scripts/goerli/DeployTokenizedBallot.ts "Proposal 1" "Proposal 2" "Proposal 3"
+```
+
+Voter 2 votes certain amount to desired proposal number.
+
+```shell
+yarn run ts-node --files ./scripts/goerli/Vote.ts "proposal" "amount"
+```
+
+Voter 2 votes half+1 to proposal 2.
+
+```shell
+yarn run ts-node --files ./scripts/goerli/Vote.ts "proposal" "amount"
+```
+
+Check who's winning on current block.
+
+```shell
+yarn run ts-node --files ./scripts/goerli/WinnerName.ts
 ```

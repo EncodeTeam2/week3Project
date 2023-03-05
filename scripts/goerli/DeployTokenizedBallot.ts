@@ -2,11 +2,12 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { BigNumber, ethers } from "ethers";
 import { TokenizedBallot, TokenizedBallot__factory } from "../../typechain-types";
 import { configureGoerliWallet, getArguments } from "../Utils";
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 export async function deployTokenizedBallot() {
     // Check if token contract address is in .env.
     if (!process.env.ERC20_TOKEN_CONTRACT_ADDRESS) throw new Error("Missing token contract address enviroment variable.")
-
 
     // Receives proposals from arguments
     const proposals = getArguments(process.argv)
@@ -16,6 +17,9 @@ export async function deployTokenizedBallot() {
 
     // Get latest block.
     const latestBlock = await deployer.provider.getBlockNumber()
+
+    console.log("Deploying Tokenized Ballot...");
+    console.log("Waiting for confirmation...");
 
     // Deploy Tokenized Ballot contract
     const tokenizedBallotContractFactory = new TokenizedBallot__factory(deployer)
