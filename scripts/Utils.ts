@@ -1,5 +1,4 @@
 import { ethers } from "ethers";
-import { Ballot, Ballot__factory } from "../typechain-types";
 
 export function getArguments(args: Array<string>): Array<string> {
 
@@ -12,7 +11,7 @@ export function getArguments(args: Array<string>): Array<string> {
     return args
 }
 
-export function configureWallet(privateKey: string | undefined): ethers.Wallet {
+export function configureGoerliWallet(privateKey: string | undefined): ethers.Wallet {
     // Configure provider as goerli
 
     const provider = ethers.providers.getDefaultProvider("goerli", {
@@ -53,4 +52,4 @@ export async function attachToBallot(signerWallet: ethers.Wallet): Promise<Ballo
     }
 
     return ballotContractInstance
-}
+} 

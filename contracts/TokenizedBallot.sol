@@ -57,7 +57,6 @@ contract TokenizedBallot {
         require(votingPower(msg.sender) > 0, "No voting power.");
         // Update spent voting power to track remaining voting power.
         votingPowerSpent[msg.sender] += amount;
-
         // Update proposal vote count.
         proposals[proposal].voteCount += amount;
     }

@@ -28,6 +28,12 @@ yarn hardhat compile
 
 # Test
 
-```
+```shell
 yarn hardhat test
+```
+
+# Deploy
+
+```shell
+yarn run ts-node --files ./scripts/hre/Deployment.ts "Proposal 1" "Proposal 2" "Proposal 3"
 ```
